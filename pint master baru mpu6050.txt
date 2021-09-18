@@ -1,0 +1,44 @@
+MPU6050
+KIRI =>SCL SDA GND VCC
+
+KANAN=> GND VCC SCL SDA
+
+Pengambilan Dat 1 dan Dat 2
+
+Urutan Data:
+1. akselero sb X mpu1 
+2. akselero sb Y mpu1
+3. akselero sb Z mpu1
+4. akselero pitch mpu1
+5. gyro sb X mpu1
+6. gyro sb Y mpu1
+7. gyro sb Z mpu1
+8. pitch mpu1
+9. akselero sb X mpu2 
+10. akselero sb Y mpu2
+11. akselero sb Z mpu2
+12. akselero pitch mpu2
+13. gyro sb X mpu2
+14. gyro sb Y mpu2
+15. gyro sb Z mpu2
+16. pitch mpu2
+17. akselero sb X mpu3 
+18. akselero sb Y mpu3
+19. akselero sb Z mpu3
+20. akselero pitch mpu3
+21. gyro sb X mpu3
+22. gyro sb Y mpu3
+23. gyro sb Z mpu3
+24. pitch mpu3
+25. akselero sb X mpu4 
+26. akselero sb Y mpu4
+27. akselero sb Z mpu4
+28. akselero pitch mpu4
+29. gyro sb X mpu4
+30. gyro sb Y mpu4
+31. gyro sb Z mpu4
+32. pitch mpu4
+33. FSR 1
+34. FSR 2
+
+

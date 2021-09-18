@@ -78,7 +78,7 @@ void loop() {
     float acCalibratedZ = acRes.angleZ + (1-ofsetDat1.accOfsetZ);
   
     float acRoll = (atan2(acCalibratedX,acCalibratedZ)*57.2958);
-    float acPitch = (atan2(acCalibratedY ,acCalibratedZ)*57.2958);
+    float acPitch = -1*(atan2(acCalibratedY ,acCalibratedZ)*57.2958);
     
 //    float acRoll = (atan2(acRes.angleX,acRes.angleZ)*180)/PI;
 //    float acPitch = (atan2(acRes.angleY ,acRes.angleZ)*180)/PI;    
@@ -102,6 +102,9 @@ void loop() {
     waktu_sekarang = millis();
     
     dt = (waktu_sekarang-waktu_lalu)/1000.00;
+//    gRoll =  gyrCalibratedY*dt;
+//    gPitch = gyrCalibratedX*dt;
+
     gRoll = acRoll + gyrCalibratedY*dt;
     gPitch = acPitch + gyrCalibratedX*dt;
 
@@ -112,12 +115,30 @@ void loop() {
 //    gPitch = acPitch + gyrRes.angleY*dt;
 //
 ////  Complement Filter
-      roll = acRoll*0.15+gRoll*0.85;
-      pitch = acPitch*0.85+gPitch*0.15;
+//      roll = acRoll*0.15+gRoll*0.85;
+//      pitch = acPitch*0.85+gPitch*0.15;
 
-//    roll = 0.90*(roll+gRoll*dt)+0.10*acRoll;
-//    pitch = 0.10*(pitch+gPitch*dt)+0.90*acPitch;
+    roll = 0.90*(roll+gRoll*dt)+0.10*acRoll;
+    pitch = 0.10*(pitch+gPitch*dt)+0.90*acPitch;
+
+    Serial.print("accX = ");
+    Serial.print(acCalibratedX);
+    Serial.print("accY = ");
+    Serial.print(acCalibratedY);
+    Serial.print("accZ = ");
+    Serial.print(acCalibratedZ);
     
+    Serial.print("gyrX = ");
+    Serial.print(gyrCalibratedX);
+    Serial.print("gyrY = ");
+    Serial.print(gyrCalibratedY);
+    Serial.print("gyrZ = ");
+    Serial.print(gyrCalibratedZ);
+
+//     Serial.print("accXAngle = ");
+//    Serial.print(acCalibratedX);
+//    Serial.print(" Pitch = ");
+//    Serial.println(pitch);
     Serial.print("Roll = ");
     Serial.print(roll);
     Serial.print(" Pitch = ");
@@ -127,10 +148,10 @@ void loop() {
 //    Serial.print(roll);
 //    Serial.print(" RollAcc = ");
 //    Serial.print(acRoll);
-//    Serial.print(" RollGyr = ");
-//    Serial.println(gRoll);
+    Serial.print(" PitchGyr = ");
+    Serial.println(gPitch);
     
-    delay(10);  
+    delay(500);  
     waktu_lalu = millis();  
 }
 

@@ -40,6 +40,17 @@ struct OfsetData{
 
 //Tipe Data Roll pitch
 struct RollPitch{
+  float accX;
+  float accY;
+  float accZ;
+
+  float accRoll;
+  float accPitch;
+
+  float gyrX;
+  float gyrY;
+  float gyrZ;
+  
   float roll;
   float pitch;
 };
@@ -49,6 +60,11 @@ struct OfsetData ofsetDat1;
 struct OfsetData ofsetDat2;
 struct OfsetData ofsetDat3;
 
+struct RollPitch mpu0;
+struct RollPitch mpu1;
+struct RollPitch mpu2;
+struct RollPitch mpu3;
+ 
 void setup() {
   // put your setup code here, to run once:
   Wire.begin();
@@ -79,7 +95,7 @@ void setup() {
 void loop() {
   // put your main code here, to run repeatedly:
 //Check TCa
-  tcaCheck();
+//  tcaCheck();
 
   
 //  check apakah MPU6050 terkoneksi dengan baik
@@ -88,49 +104,92 @@ void loop() {
   i2cSensCheck(0x68,"MPU6050 bus 2",2);
   i2cSensCheck(0x68,"MPU6050 bus 3",3);
   
-  struct RollPitch mpu0;
-  mpu0 = getRollPitch(ofsetDat0,0x68, 0);
+  mpu0 = getRollPitch(ofsetDat0,0x68, 0, mpu0);
+  
+  mpu1 = getRollPitch(ofsetDat1 ,0x68, 1, mpu1);
+  
+  mpu2 = getRollPitch(ofsetDat2,0x68, 2, mpu2);
 
-  struct RollPitch mpu1;
-  mpu1 = getRollPitch(ofsetDat1 ,0x68, 1);
-
-  struct RollPitch mpu2;
-  mpu2 = getRollPitch(ofsetDat2,0x68, 2);
-//
-  struct RollPitch mpu3;
-  mpu3 = getRollPitch(ofsetDat3 ,0x68, 3);
+  mpu3 = getRollPitch(ofsetDat3 ,0x68, 3, mpu3);
 
   FSR1Dig = analogRead(FSR1Pin);
   FSR2Dig = analogRead(FSR2Pin);
     
-//    Serial1.print("Roll 1 = ");
-//    Serial1.print(mpu1.roll);
-    Serial1.print(" Pitch 1 = ");
+    Serial1.print(mpu0.accX);
+    Serial1.print(" ");
+    Serial1.print(mpu0.accY);
+    Serial1.print(" ");
+    Serial1.print(mpu0.accZ);
+    Serial1.print(" ");
+//    Serial1.print(mpu0.accPitch);
+    Serial1.print(" ");
+    Serial1.print(mpu0.gyrX);
+    Serial1.print(" ");
+    Serial1.print(mpu0.gyrY);
+    Serial1.print(" ");
+    Serial1.print(mpu0.gyrZ);
+    Serial1.print(" ");
     Serial1.print(mpu0.pitch);
-
-//    Serial1.print("  Roll 2 = ");
-//    Serial1.print(mpu2.roll);
-    Serial1.print(" Pitch 2 = ");
+    
+    Serial1.print(" ");
+    Serial1.print(mpu1.accX);
+    Serial1.print(" ");
+    Serial1.print(mpu1.accY);
+    Serial1.print(" ");
+    Serial1.print(mpu1.accZ);
+    Serial1.print(" ");
+//    Serial1.print(mpu1.accPitch);
+    Serial1.print(" ");
+    Serial1.print(mpu1.gyrX);
+    Serial1.print(" ");
+    Serial1.print(mpu1.gyrY);
+    Serial1.print(" ");
+    Serial1.print(mpu1.gyrZ);
+    Serial1.print(" ");
     Serial1.print(mpu1.pitch);
-
-//    Serial1.print("  Roll 3 = ");
-//    Serial1.print(mpu3.roll);
-    Serial1.print(" Pitch 3 = ");
+    
+    Serial1.print(" ");
+    Serial1.print(mpu2.accX);
+    Serial1.print(" ");
+    Serial1.print(mpu2.accY);
+    Serial1.print(" ");
+    Serial1.print(mpu2.accZ);
+    Serial1.print(" ");
+//    Serial1.print(mpu2.accPitch);
+    Serial1.print(" ");
+    Serial1.print(mpu2.gyrX);
+    Serial1.print(" ");
+    Serial1.print(mpu2.gyrY);
+    Serial1.print(" ");
+    Serial1.print(mpu2.gyrZ);
+    Serial1.print(" ");
     Serial1.print(mpu2.pitch);
-//
-//    Serial1.print("  Roll 4 = ");
-//    Serial1.print(mpu4.roll);
-    Serial1.print(" Pitch 4 = ");
+    Serial1.print(" ");
+    
+    Serial1.print(mpu3.accX);
+    Serial1.print(" ");
+    Serial1.print(mpu3.accY);
+    Serial1.print(" ");
+    Serial1.print(mpu3.accZ);
+    Serial1.print(" ");
+//    Serial1.print(mpu3.accPitch);
+    Serial1.print(" ");
+    Serial1.print(mpu3.gyrX);
+    Serial1.print(" ");
+    Serial1.print(mpu3.gyrY);
+    Serial1.print(" ");
+    Serial1.print(mpu3.gyrZ);
+    Serial1.print(" ");
     Serial1.print(mpu3.pitch);
-
-    Serial1.print("FSR1= ");
+    Serial1.print(" ");
+    
     Serial1.print(FSR1Dig);
-    Serial1.print("FSR2 = ");
+    Serial1.print(" ");
     Serial1.println(FSR2Dig);
 
 //      Serial.println(String(mpu0.pitch)+" "+String(mpu1.pitch)+" "+String(mpu2.pitch)+" "+String(mpu3.pitch)+" "+String(FSR1Dig)+" "+String(FSR2Dig));
-    
-    delay(10);  
+//    
+    delay(1);  
     waktu_lalu = millis();  
 }
 
@@ -283,7 +342,7 @@ struct DataAngle getGyrDeg(struct RawData gyrRaw){
 }
 
 //Fungsi untuk dapat Data roll dan Pitch beserta filter
-struct RollPitch getRollPitch(struct OfsetData ofsetDat, int address, int busTca)
+struct RollPitch getRollPitch(struct OfsetData ofsetDat, int address, int busTca, struct RollPitch prevVal)
   {
   struct RollPitch res;
   
@@ -333,8 +392,22 @@ struct RollPitch getRollPitch(struct OfsetData ofsetDat, int address, int busTca
 //    gPitch = acPitch + gyrRes.angleY*dt;
 //
 ////  Complement Filter
-      res.roll = acRoll*0.85+gRoll*0.15;
-      res.pitch = acPitch*0.85+gPitch*0.15;
+//      res.roll = acRoll*0.85+gRoll*0.15;
+//      res.pitch = acPitch*0.85+gPitch*0.15;
+
+    res.accX = acCalibratedX;
+    res.accY = acCalibratedY;
+    res.accZ = acCalibratedZ;
+
+    res.accRoll = acRoll;
+    res.accPitch = acPitch;
+
+    res.gyrX = gyrCalibratedX;
+    res.gyrY = gyrCalibratedY;
+    res.gyrZ = gyrCalibratedZ;    
+      
+    res.roll = 0.10*(prevVal.roll+gRoll)+0.90*acRoll;
+    res.pitch = 0.20*(prevVal.pitch+gPitch)+0.80*acPitch;
 
       return res;
 }
