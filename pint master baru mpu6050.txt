@@ -3,7 +3,42 @@ KIRI =>SCL SDA GND VCC
 
 KANAN=> GND VCC SCL SDA
 
+vol ref: 3.26 V
+
 Pengambilan Dat 1 dan Dat 2
+
+data bd 57600
+freq sampl: 22-26 Hz / 40ms/data
+
+time datEndra1 :15 s
+time datEndra2 : 17.46 s
+time datEndra3 : 18.11 s
+time datEndra4 : 16.22 s
+time datEndra5 : 31.96 s
+time datEndra6 : 43.63 s
+time datEndra7 : 29.46 s
+time datEndra8 : 32.97 s
+time datEndra9 : 46.37 s
+time datEndra10 : 27.45 s
+
+time data1 : 20,37 s
+time data2 : 18,75 s
+time data3 : 19,08 s
+time data4 : 18,55 s
+time data5 : 30,89 s
+time data6 : 30,89 s
+time data7 : 30,89 s
+time data8 : 30,89 s
+
+Endra: 
+1. Panjang Paha: 39 cm
+2. panjang betis: 36/37 cm
+3. panjang kaki: 24 cm
+
+Dana:
+1. panjang paha: 44 cm
+2. Panjang betis: 38 cm
+3. panjang kaki: 26 cm
 
 Urutan Data:
 1. akselero sb X mpu1 

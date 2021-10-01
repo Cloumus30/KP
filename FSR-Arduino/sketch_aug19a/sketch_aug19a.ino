@@ -6,7 +6,7 @@ void setup() {
   while(!Serial){
     
   }
-  analogReadResolution(10);
+  analogReadResolution(12);
   Serial.println("START");
 }
 
@@ -17,7 +17,7 @@ void loop() {
 //  int FSR2 = analogRead(FSR2Pin);
 //delay(1);
   // Mengubah nilai bit FSR menjadi voltase
-  float FSR1Vol = FSR1/1023.0*3.3;
+  float FSR1Vol = FSR1/4095.0*3.26;
 //  float FSR2Vol = FSR2/1023.0*3.3;
 
   // Mengubah nilai FSR ke Resistansi (Ohm)     
@@ -26,11 +26,11 @@ void loop() {
 
   // print di serial
   Serial.print("FSR1 bit: ");
-  Serial.println(FSR1);
+  Serial.print(FSR1);
 //  Serial.print(" FSR2 bit: ");
 //  Serial.println(FSR2);
-//  Serial.print("  FSR1 Voltase: ");
-//  Serial.print(FSR1Vol);
+  Serial.print("  FSR1 Voltase: ");
+  Serial.println(FSR1Vol);
 //  Serial.print(" FSR2 Voltase: ");
 //  Serial.print(FSR2Vol);
 //  Serial.print("  FSR1 Resistan: ");

@@ -47,11 +47,6 @@ struct RollPitch{
   float accRoll;
   float accPitch;
 
-  float gyRoll;
-  float gyPitch;
-
-  float deltaTime;
-
   float gyrX;
   float gyrY;
   float gyrZ;
@@ -74,7 +69,6 @@ void setup() {
   // put your setup code here, to run once:
   Wire.begin();
   Serial1.begin(57600);
-  analogReadResolution(12); // Set ADC 12 bit
   while(!Serial1){
     
   }
@@ -84,16 +78,16 @@ void setup() {
   tcaCheck();
 // Set up Sensor
   setMPU(0x68,0);
-  setMPU(0x68,1);
-  setMPU(0x68,2);
-  setMPU(0x68,3);
+//  setMPU(0x68,1);
+//  setMPU(0x68,2);
+//  setMPU(0x68,3);
   delay(10);
 
 //  Kalibrasi Sensor
   ofsetDat0 = calibrate(0x68,0);
-  ofsetDat1 = calibrate(0x68,1);
-  ofsetDat2 = calibrate(0x68,2);
-  ofsetDat3 = calibrate(0x68,3);
+//  ofsetDat1 = calibrate(0x68,1);
+//  ofsetDat2 = calibrate(0x68,2);
+//  ofsetDat3 = calibrate(0x68,3);
   waktu_lalu=millis();
   
 }
@@ -106,23 +100,20 @@ void loop() {
   
 //  check apakah MPU6050 terkoneksi dengan baik
   i2cSensCheck(0x68,"MPU6050 bus 0",0);
-  i2cSensCheck(0x68,"MPU6050 bus 1",1);
-  i2cSensCheck(0x68,"MPU6050 bus 2",2);
-  i2cSensCheck(0x68,"MPU6050 bus 3",3);
+//  i2cSensCheck(0x68,"MPU6050 bus 1",1);
+//  i2cSensCheck(0x68,"MPU6050 bus 2",2);
+//  i2cSensCheck(0x68,"MPU6050 bus 3",3);
   
   mpu0 = getRollPitch(ofsetDat0,0x68, 0, mpu0);
   
-  mpu1 = getRollPitch(ofsetDat1 ,0x68, 1, mpu1);
-  
-  mpu2 = getRollPitch(ofsetDat2,0x68, 2, mpu2);
-
-  mpu3 = getRollPitch(ofsetDat3 ,0x68, 3, mpu3);
+//  mpu1 = getRollPitch(ofsetDat1 ,0x68, 1, mpu1);
+//  
+//  mpu2 = getRollPitch(ofsetDat2,0x68, 2, mpu2);
+//
+//  mpu3 = getRollPitch(ofsetDat3 ,0x68, 3, mpu3);
 
   FSR1Dig = analogRead(FSR1Pin);
-  FSR1Vol = FSR1Dig/4095.0*3.26;
-  
   FSR2Dig = analogRead(FSR2Pin);
-  FSR2Vol = FSR2Dig/4095.0*3.26;
     
     Serial1.print(mpu0.accX);
     Serial1.print(" ");
@@ -139,89 +130,67 @@ void loop() {
     Serial1.print(mpu0.gyrZ);
     Serial1.print(" ");
     Serial1.print(mpu0.pitch);
-//    Serial1.print(" ");
-//    Serial1.print(mpu0.deltaTime);
-    
     
     Serial1.print(" ");
-    Serial1.print(mpu1.accX);
+    Serial1.print(0);
     Serial1.print(" ");
-    Serial1.print(mpu1.accY);
+    Serial1.print(0);
     Serial1.print(" ");
-    Serial1.print(mpu1.accZ);
+    Serial1.print(0);
     Serial1.print(" ");
 //    Serial1.print(mpu1.accPitch);
     Serial1.print(" ");
-    Serial1.print(mpu1.gyrX);
+    Serial1.print(0);
     Serial1.print(" ");
-    Serial1.print(mpu1.gyrY);
+    Serial1.print(0);
     Serial1.print(" ");
-    Serial1.print(mpu1.gyrZ);
+    Serial1.print(0);
     Serial1.print(" ");
-    Serial1.print(mpu1.pitch);
-//    Serial1.print(" ");
-//    Serial1.print(mpu1.deltaTime);
+    Serial1.print(0);
     
     Serial1.print(" ");
-    Serial1.print(mpu2.accX);
+    Serial1.print(0);
     Serial1.print(" ");
-    Serial1.print(mpu2.accY);
+    Serial1.print(0);
     Serial1.print(" ");
-    Serial1.print(mpu2.accZ);
+    Serial1.print(0);
     Serial1.print(" ");
 //    Serial1.print(mpu2.accPitch);
     Serial1.print(" ");
-    Serial1.print(mpu2.gyrX);
+    Serial1.print(0);
     Serial1.print(" ");
-    Serial1.print(mpu2.gyrY);
+    Serial1.print(0);
     Serial1.print(" ");
-    Serial1.print(mpu2.gyrZ);
+    Serial1.print(0);
     Serial1.print(" ");
-    Serial1.print(mpu2.pitch);
+    Serial1.print(0);
     Serial1.print(" ");
-//    Serial1.print(mpu2.deltaTime);
-//    Serial1.print(" ");
     
-    Serial1.print(mpu3.accX);
+    Serial1.print(0);
     Serial1.print(" ");
-    Serial1.print(mpu3.accY);
+    Serial1.print(0);
     Serial1.print(" ");
-    Serial1.print(mpu3.accZ);
+    Serial1.print(0);
     Serial1.print(" ");
 //    Serial1.print(mpu3.accPitch);
     Serial1.print(" ");
-    Serial1.print(mpu3.gyrX);
+    Serial1.print(0);
     Serial1.print(" ");
-    Serial1.print(mpu3.gyrY);
+    Serial1.print(0);
     Serial1.print(" ");
-    Serial1.print(mpu3.gyrZ);
+    Serial1.print(0);
     Serial1.print(" ");
-    Serial1.print(mpu3.pitch);
-    Serial1.print(" ");
-//    Serial1.print(mpu3.deltaTime);
-//    Serial1.print(" ");
-
-    Serial1.print(FSR1Vol);
-    Serial1.print(" ");
-    Serial1.print(FSR2Vol);
+    Serial1.print(0);
     Serial1.print(" ");
     
-    Serial1.print(mpu0.deltaTime);
+    Serial1.print(FSR1Dig);
     Serial1.print(" ");
-    Serial1.print(mpu1.deltaTime);
-    Serial1.print(" ");
-    Serial1.print(mpu2.deltaTime);
-    Serial1.print(" ");
-    Serial1.println(mpu3.deltaTime);
-//    Serial1.print(" ");
-//    Serial1.print(FSR1Dig);
-//    Serial1.print(" ");
-//    Serial1.println(FSR2Dig);
+    Serial1.println(FSR2Dig);
 
 //      Serial.println(String(mpu0.pitch)+" "+String(mpu1.pitch)+" "+String(mpu2.pitch)+" "+String(mpu3.pitch)+" "+String(FSR1Dig)+" "+String(FSR2Dig));
 //    
     delay(1);  
-//    waktu_lalu = millis();  
+    waktu_lalu = millis();  
 }
 
 //Fungsi untuk cek koneksi Tca984
@@ -435,17 +404,11 @@ struct RollPitch getRollPitch(struct OfsetData ofsetDat, int address, int busTca
 
     res.gyrX = gyrCalibratedX;
     res.gyrY = gyrCalibratedY;
-    res.gyrZ = gyrCalibratedZ;   
-
-    res.gyRoll = gRoll;
-    res.gyPitch = gPitch;
+    res.gyrZ = gyrCalibratedZ;    
       
-    res.roll = 0.20*(prevVal.roll+gRoll)+0.80*acRoll;
+    res.roll = 0.10*(prevVal.roll+gRoll)+0.90*acRoll;
     res.pitch = 0.20*(prevVal.pitch+gPitch)+0.80*acPitch;
 
-    res.deltaTime = dt;
-    
-    waktu_lalu = millis(); 
       return res;
 }
 
